@@ -1,0 +1,84 @@
+# ------------------------------------
+# 1. ENVIRONMENT / DEPENDENCIES
+# ------------------------------------
+# Python virtual environment directories
+venv/
+env/
+.venv/
+.env
+.env.*
+
+# Dependency installation files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------
+# 2. DATABASE AND SECRET KEYS (CRITICAL)
+# ------------------------------------
+# Local SQLite database file
+db.sqlite3
+*.db
+*.sqlite
+
+# The settings file that stores your unique SECRET_KEY (if kept separate)
+# If your SECRET_KEY is in a different file (e.g., local_settings.py), list it here:
+local_settings.py
+
+# ------------------------------------
+# 3. STATIC AND MEDIA FILES
+# ------------------------------------
+# Collectstatic output directory (usually outside the project root)
+# Django collects all static files here for production serving.
+/static_collected/
+/staticfiles/
+media/
+
+# ------------------------------------
+# 4. IDE AND EDITOR FILES
+# ------------------------------------
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------
+# 5. LOGS AND TEMPORARY FILES
+# ------------------------------------
+*.log
+*.pot
+*.pid
+*.seed
+*.pid.lock
+
+# ------------------------------------
+# 6. TESTING AND COVERAGE
+# ------------------------------------
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+*.cover
+.hypothesis/
+
+# ------------------------------------
+# 7. BUILD AND DISTRIBUTION
+# ------------------------------------
+build/
+dist/
+*.egg-info/
+*.egg

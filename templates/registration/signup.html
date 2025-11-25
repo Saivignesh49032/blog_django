@@ -1,0 +1,14 @@
+<div class="container">
+    <h1>Sign Up</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {# Renders the username, password, and password confirmation fields #}
+        {{ form.as_p }} 
+        
+        <button type="submit">Create Account</button>
+    </form>
+    
+    <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+</div>
