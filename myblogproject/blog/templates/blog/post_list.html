@@ -1,0 +1,107 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="blog-container">
+    <!-- Simple Header -->
+    <div class="page-header">
+        <h1>Latest Posts</h1>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="main-column">
+            {% if posts %}
+            <!-- Posts Grid -->
+            <div class="posts-grid">
+                {% for post in posts %}
+                <article class="post-card">
+                    {% if post.image %}
+                    <div class="card-image">
+                        <a href="{% url 'blog:detail' post.pk %}">
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        </a>
+                        {% if post.category %}
+                        <span class="category-tag">{{ post.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h2 class="post-title">
+                            <a href="{% url 'blog:detail' post.pk %}">{{ post.title }}</a>
+                        </h2>
+
+                        <div class="post-meta">
+                            <span class="author">By {{ post.author }}</span>
+                            <span class="dot">•</span>
+                            <span class="date">{{ post.pub_date|date:"M d, Y" }}</span>
+                        </div>
+
+                        <p class="post-excerpt">{{ post.content|truncatewords:25 }}</p>
+
+                        <a href="{% url 'blog:detail' post.pk %}" class="read-more">
+                            Read Article <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="pagination-container">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-link">← Previous</a>
+                {% endif %}
+
+                <span class="page-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next →</a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="no-posts">
+                <p>No posts available yet.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <aside class="sidebar">
+            {% include 'polls/poll_snippet.html' %}
+        </aside>
+    </div>
+</div>
+
+<style>
+    .content-wrapper {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    .main-column {
+        flex: 1;
+    }
+
+    .sidebar {
+        width: 300px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 90px;
+    }
+
+    @media (max-width: 992px) {
+        .content-wrapper {
+            flex-direction: column;
+        }
+
+        .sidebar {
+            width: 100%;
+            position: static;
+            margin-top: 40px;
+        }
+    }
+</style>
+{% endblock %}

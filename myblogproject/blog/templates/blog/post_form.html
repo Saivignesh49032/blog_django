@@ -1,0 +1,61 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="post-article">
+    <div class="post-header">
+        {% if post %}
+        <h1 class="post-title">Edit Post: {{ post.title }}</h1>
+        {% else %}
+        <h1 class="post-title">Create New Post</h1>
+        {% endif %}
+    </div>
+
+    <div class="comment-form-container" style="margin-top: 0;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div style="margin-bottom: 20px;">
+                <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 8px; font-weight: 600;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small style="color: var(--text-muted); display: block; margin-top: 5px;">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <div style="color: var(--danger); font-size: 0.9rem; margin-top: 5px;">{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <div style="margin-top: 30px; display: flex; gap: 15px;">
+                <button type="submit" class="btn-submit">Save Post</button>
+                <a href="{% url 'blog:index' %}" class="btn-delete" style="background-color: var(--secondary); text-align: center; padding-top: 10px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Form specific overrides */
+    input[type="text"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 1rem;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card" style="max-width: 550px;">
+        <div class="auth-header">
+            <h1 class="auth-title" style="color: var(--danger);">Delete Post</h1>
+            <p class="auth-subtitle">This action cannot be undone</p>
+        </div>
+
+        <div class="delete-warning">
+            <p>Are you sure you want to delete the post:</p>
+            <h3 style="margin: 15px 0; color: var(--text-main);">"{{ post.title }}"</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">This will permanently remove the post and all
+                associated comments and likes.</p>
+        </div>
+
+        <form method="post" style="margin-top: 30px;">
+            {% csrf_token %}
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button type="submit" class="btn-delete" style="padding: 12px 30px;">Yes, Delete Post</button>
+                <a href="{% url 'blog:detail' post.pk %}" class="btn-submit"
+                    style="background-color: var(--secondary); text-align: center; padding: 12px 30px; text-decoration: none;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - var(--nav-height) - 200px);
+        padding: 40px 20px;
+    }
+
+    .auth-card {
+        background-color: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .auth-title {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        color: var(--text-main);
+    }
+
+    .auth-subtitle {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .delete-warning {
+        background-color: rgba(220, 53, 69, 0.05);
+        border: 1px solid rgba(220, 53, 69, 0.2);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .delete-warning p {
+        margin: 0;
+        color: var(--text-main);
+    }
+</style>
+{% endblock %}

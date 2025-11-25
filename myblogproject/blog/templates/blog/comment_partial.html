@@ -1,0 +1,8 @@
+<div class="comment-box">
+    <div class="comment-meta">
+        <strong>{{ comment.user.username }}</strong> said on {{ comment.created_on|date:"M d, Y" }}
+    </div>
+    <div class="comment-body">
+        {{ comment.body|linebreaks }}
+    </div>
+</div>

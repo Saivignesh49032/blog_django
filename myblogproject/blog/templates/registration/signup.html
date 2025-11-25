@@ -1,0 +1,228 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Join Us</h1>
+            <p class="auth-subtitle">Create your account to start blogging</p>
+        </div>
+
+        {% if form.errors %}
+        <div class="messages">
+            <div class="alert alert-error">
+                Please correct the errors below.
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text|safe }}</small>
+                {% endif %}
+                {% if field.errors %}
+                {% for error in field.errors %}
+                <div class="field-error">{{ error }}</div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-submit btn-full">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - var(--nav-height) - 200px);
+        padding: 40px 20px;
+    }
+
+    .auth-card {
+        background-color: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .auth-title {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        color: var(--text-main);
+    }
+
+    .auth-subtitle {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .auth-form {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-main);
+        font-size: 0.9rem;
+    }
+
+    /* Style all input fields */
+    .form-group input[type="text"],
+    .form-group input[type="password"],
+    .form-group select,
+    .form-group textarea,
+    #id_username,
+    #id_password1,
+    #id_password2 {
+        width: 100% !important;
+        padding: 12px 16px !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        background-color: var(--bg-body) !important;
+        color: var(--text-main) !important;
+        font-family: inherit !important;
+        font-size: 1rem !important;
+        transition: border-color 0.2s, box-shadow 0.2s !important;
+        box-sizing: border-box !important;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus,
+    #id_username:focus,
+    #id_password1:focus,
+    #id_password2:focus {
+        outline: none !important;
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1) !important;
+    }
+
+    .help-text {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    .help-text ul {
+        margin: 8px 0;
+        padding-left: 20px;
+    }
+
+    .help-text li {
+        margin: 4px 0;
+    }
+
+    .field-error {
+        color: var(--danger);
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+
+    .btn-full {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .auth-footer {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .auth-footer p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .auth-footer a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-md);
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .alert-error {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: var(--danger);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .alert-info {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: var(--primary);
+        border: 1px solid rgba(13, 110, 253, 0.3);
+    }
+
+    .alert-success {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: var(--success);
+        border: 1px solid rgba(25, 135, 84, 0.3);
+    }
+
+    /* Django error list styling */
+    ul.errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0 0;
+    }
+
+    ul.errorlist li {
+        color: var(--danger);
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+
+    /* Remove default Django help text styling */
+    .helptext {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+</style>
+{% endblock %}

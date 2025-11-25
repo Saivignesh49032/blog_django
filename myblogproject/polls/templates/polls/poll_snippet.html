@@ -1,0 +1,161 @@
+{% if poll_question %}
+<div class="poll-widget">
+    <h3 class="poll-title">{{ poll_question.question_text }}</h3>
+
+    {% if user_has_voted %}
+    <div class="poll-results">
+        {% for choice in poll_question.choice_set.all %}
+        <div class="poll-result-item">
+            <div class="result-label">
+                <span>{{ choice.choice_text }}</span>
+                <span>{{ choice.votes }} votes</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: {% widthratio choice.votes poll_question.total_votes 100 %}%">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <p class="total-votes">Total votes: {{ poll_question.total_votes }}</p>
+
+        <!-- Clear Vote Button -->
+        <form action="{% url 'polls:clear_vote' poll_question.id %}" method="post" class="clear-vote-form">
+            {% csrf_token %}
+            <button type="submit" class="btn-clear-vote"
+                onclick="return confirm('Are you sure you want to clear your vote?');">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                    <path
+                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                </svg>
+                Clear My Vote
+            </button>
+        </form>
+    </div>
+    {% else %}
+    <form action="{% url 'polls:vote' poll_question.id %}" method="post" class="poll-form">
+        {% csrf_token %}
+        {% for choice in poll_question.choice_set.all %}
+        <div class="poll-option">
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" required>
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-vote">Vote</button>
+    </form>
+    {% endif %}
+</div>
+
+<style>
+    .poll-widget {
+        background: var(--bg-card);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .poll-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: var(--text-main);
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .poll-option {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .poll-option label {
+        cursor: pointer;
+        color: var(--text-main);
+    }
+
+    .btn-vote {
+        margin-top: 15px;
+        width: 100%;
+        padding: 10px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+
+    .btn-vote:hover {
+        background: var(--primary-hover);
+    }
+
+    .poll-result-item {
+        margin-bottom: 15px;
+    }
+
+    .result-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+        color: var(--text-main);
+    }
+
+    .progress-bar-container {
+        background: var(--bg-body);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: var(--primary);
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.5s ease;
+    }
+
+    .total-votes {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-top: 10px;
+    }
+
+    .clear-vote-form {
+        margin-top: 15px;
+    }
+
+    .btn-clear-vote {
+        width: 100%;
+        padding: 10px;
+        background: transparent;
+        color: #dc3545;
+        border: 2px solid #dc3545;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn-clear-vote:hover {
+        background: #dc3545;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-clear-vote svg {
+        flex-shrink: 0;
+    }
+</style>
+{% endif %}
